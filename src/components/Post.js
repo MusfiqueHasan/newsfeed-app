@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Checkbox,
   IconButton,
   ListItemIcon,
   Menu,
@@ -24,8 +25,6 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const Post = ({ postInfo }) => {
   const { description, photo, reaction, id, bookmarked, userName, userUrl, email, date } = postInfo
-  const [isFavourite, setIsFavourite] = useState(true)
-  const [isBookmarked, setIsBookmarked] = useState(true)
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -72,34 +71,29 @@ const Post = ({ postInfo }) => {
       />
       <CardActions disableSpacing>
 
-        <IconButton aria-label="add to favorites"
-          onClick={() => {
+        <Checkbox
+          onChange={(e) => {
             if (!currentUser?.email) {
               dispatch(updateStateModal(true))
             } else {
-              dispatch(updateReactButton(isFavourite, id))
-              dispatch(updateStateModal(false))
-              setIsFavourite(!isFavourite)
+              dispatch(updateReactButton(e.target.checked, id))
             }
-
           }}
-        >
-          {reaction ? <Favorite sx={{ color: "red" }} /> : <FavoriteBorder />}
-        </IconButton>
-        <IconButton aria-label="bookmark"
-          onClick={() => {
+          icon={reaction ? <Favorite sx={{ color: "red" }} /> : <FavoriteBorder />}
+          checkedIcon={<Favorite sx={{ color: "red" }} />}
+        />
+
+        <Checkbox
+          onChange={(e) => {
             if (!currentUser?.email) {
               dispatch(updateStateModal(true))
             } else {
-              isBookmarked && dispatch(updateBookmarkButton(isBookmarked, currentUser?.email, id))
-              dispatch(updateStateModal(false))
-              setIsBookmarked(!isBookmarked)
+              dispatch(updateBookmarkButton(e.target.checked, currentUser?.email, id))
             }
           }}
-        >
-          {bookmarked ? <BookmarkIcon color="primary" /> : <BookmarkBorderIcon />}
-
-        </IconButton>
+          icon={bookmarked ? <BookmarkIcon color='primary' /> : <BookmarkBorderIcon />}
+          checkedIcon={<BookmarkIcon color='primary' />}
+        />
       </CardActions>
       <Menu
         anchorEl={anchorEl}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, IconButton, Slide, Table, TableBody, TableCell, TableContainer, TableRow, } from '@mui/material';
+import { Checkbox, Dialog, DialogContent, IconButton, Slide, Table, TableBody, TableCell, TableContainer, TableRow, } from '@mui/material';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const BookmarkDialog = ({ openDialog, handleCloseDialog, bookmarkedData }) => {
-    const [isBookmarked, setIsBookmarked] = useState(true)
     const dispatch = useDispatch()
     const { currentUser } = useSelector(state => state.authentication)
     return (
@@ -33,21 +32,19 @@ const BookmarkDialog = ({ openDialog, handleCloseDialog, bookmarkedData }) => {
                                     <TableBody>
                                         <TableRow  >
                                             <TableCell >
-                                                <img width="50px" alt="_" src={data.photo} />
+                                                <img width="50px" alt="_" src={data?.photo} />
                                             </TableCell>
                                             <TableCell >
-                                                {data.description}
+                                                {data?.description}
                                             </TableCell>
                                             <TableCell align="right">
-                                                <IconButton aria-label="bookmark"
-                                                    onClick={() => {
-                                                        dispatch(updateBookmarkButton(isBookmarked, currentUser?.email, data.id))
-                                                        setIsBookmarked(!isBookmarked)
+                                                <Checkbox
+                                                    onChange={(e) => {
+                                                        dispatch(updateBookmarkButton(e.target.checked, currentUser?.email, data?.id))
                                                     }}
-                                                >
-                                                    {data.bookmarked ? <BookmarkIcon color="primary" /> : <BookmarkBorderIcon />}
-
-                                                </IconButton>
+                                                    icon={data?.bookmarked ? <BookmarkIcon color='primary'/> : <BookmarkBorderIcon  />}
+                                                    checkedIcon={<BookmarkIcon color='primary'/>}
+                                                />
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>

@@ -10,7 +10,7 @@ const LoginRegistration = () => {
 
   const [addclass, setaddclass] = useState("");
   const dispatch = useDispatch()
-  
+
   return (
     <Box sx={{ my: 8 }}>
       <div className={`containerlog ${addclass}`} id="container">
@@ -111,28 +111,27 @@ const LoginRegistration = () => {
               <p className="plog heading">
                 To keep connected with us please login with your personal info.
               </p>
-              <Button
-                sx={{ cursor: 'pointer' }}
+              <button
                 className="ghost btnlog"
                 id="signIn"
                 onClick={() => setaddclass("")}
               >
                 GO TO LOGIN
-              </Button>
+              </button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1 className="text-2xl font-bold ">Hello, Friend!</h1>
               <p className=" plog heading">
                 Enter your personal details and start journey with us.
               </p>
-              <Button
-                sx={{ cursor: 'pointer' }}
+              <button
+              
                 className="ghost btnlog"
                 id="signUp"
                 onClick={() => setaddclass("right-panel-active")}
               >
                 GO TO REGISTER
-              </Button>
+              </button>
             </div>
           </div>
         </div>
