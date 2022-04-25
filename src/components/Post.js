@@ -91,7 +91,7 @@ const Post = ({ postInfo }) => {
             if (!currentUser?.email) {
               dispatch(updateStateModal(true))
             } else {
-              isBookmarked && dispatch(updateBookmarkButton(isBookmarked, currentUser.email, id))
+              isBookmarked && dispatch(updateBookmarkButton(isBookmarked, currentUser?.email, id))
               dispatch(updateStateModal(false))
               setIsBookmarked(!isBookmarked)
             }

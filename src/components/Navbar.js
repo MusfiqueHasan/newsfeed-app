@@ -56,7 +56,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 const Navbar = () => {
   const { currentUser } = useSelector(state => state.authentication)
   const allPosts = useSelector((state) => state?.newsfeed?.posts)
-  const bookmarkedData = allPosts.filter(booked => booked.bookmarked === true && booked.bookmarkedUserEmail === currentUser.email)
+  const bookmarkedData = allPosts.filter(booked => booked.bookmarked === true && booked.bookmarkedUserEmail === currentUser?.email)
   const dispatch = useDispatch()
 
   const [openDialog, setOpenDialog] = useState(false);

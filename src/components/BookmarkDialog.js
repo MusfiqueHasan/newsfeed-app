@@ -41,7 +41,7 @@ const BookmarkDialog = ({ openDialog, handleCloseDialog, bookmarkedData }) => {
                                             <TableCell align="right">
                                                 <IconButton aria-label="bookmark"
                                                     onClick={() => {
-                                                        dispatch(updateBookmarkButton(isBookmarked, currentUser.email, data.id))
+                                                        dispatch(updateBookmarkButton(isBookmarked, currentUser?.email, data.id))
                                                         setIsBookmarked(!isBookmarked)
                                                     }}
                                                 >

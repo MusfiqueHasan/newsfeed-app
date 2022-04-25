@@ -10,8 +10,7 @@ const LoginRegistration = () => {
 
   const [addclass, setaddclass] = useState("");
   const dispatch = useDispatch()
-  const { currentUser } = useSelector(state => state.authentication)
-  console.log(currentUser.email)
+  
   return (
     <Box sx={{ my: 8 }}>
       <div className={`containerlog ${addclass}`} id="container">
