@@ -37,18 +37,24 @@ export const createNewsFeeds = (post) => async (dispatch) => {
         console.log(error)
     }
 }
-export const updateIconButton = (actions, option, id) => async (dispatch) => {
+export const updateReactButton = (option, id) => async (dispatch) => {
     try {
         const userDoc = doc(db, "newsfeeds", id);
-        if (actions === UPDATE_REACTION) {
-            const newFields = { reaction: option };
-            await updateDoc(userDoc, newFields);
-            dispatch({ type: UPDATE_REACTION })
-        } else if (actions === BOOKMARK_POST) {
-            const newFields = { bookmarked: option };
-            await updateDoc(userDoc, newFields);
-            dispatch({ type: BOOKMARK_POST })
-        }
+        const newFields = { reaction: option };
+        await updateDoc(userDoc, newFields);
+        dispatch({ type: UPDATE_REACTION })
+        dispatch(getNewsFeeds())
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const updateBookmarkButton = (option, email, id) => async (dispatch) => {
+    try {
+        const userDoc = doc(db, "newsfeeds", id);
+        const newFields = { bookmarked: option, bookmarkedUserEmail: email };
+        await updateDoc(userDoc, newFields);
+        dispatch({ type: BOOKMARK_POST })
         dispatch(getNewsFeeds())
 
     } catch (error) {

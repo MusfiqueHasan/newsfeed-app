@@ -56,13 +56,14 @@ const UserBox = styled(Box)(({ theme }) => ({
 const Navbar = () => {
   const { currentUser } = useSelector(state => state.authentication)
   const allPosts = useSelector((state) => state?.newsfeed?.posts)
-  const bookmarkedData = allPosts.filter(booked => booked.bookmarked === true)
+  const bookmarkedData = allPosts.filter(booked => booked.bookmarked === true && booked.bookmarkedUserEmail === currentUser.email)
   const dispatch = useDispatch()
 
   const [openDialog, setOpenDialog] = useState(false);
   const handleOpenDialog = () => { setOpenDialog(true) };
   const handleCloseDialog = () => { setOpenDialog(false) };
 
+  // console.log(bookmarkedData.email)
 
   const handleSignOut = () => {
     if (currentUser) {
@@ -93,7 +94,13 @@ const Navbar = () => {
             </UserBox>
           }
           <Badge badgeContent={bookmarkedData.length} color="error" sx={{ cursor: 'pointer' }}
-            onClick={() => handleOpenDialog()}
+            onClick={() => {
+              if (currentUser?.email) {
+                handleOpenDialog()
+              } else {
+                dispatch(updateStateModal(true))
+              }
+            }}
           >
             <BookmarkIcon />
           </Badge>

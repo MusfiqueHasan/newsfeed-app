@@ -18,14 +18,6 @@ function authReducer(state = initState, action) {
         case GOOGLE_SIGNIN_FAIL:
         case GOOGLE_SIGNOUT_FAIL:
             return { ...state, currentUser: action.payload, loading: false };
-        // case GET_SINGLE_NEWSFEED:
-        // case UPDATE_NWESFEED_STATE:
-        //     return { ...state, post: action.payload, loading: false };
-        // case CREATE_NWESFEED:
-        // case DELETE_NWESFEED:
-        // case UPDATE_NWESFEED:
-        // case UPDATE_REACTION:
-        //     return { ...state, loading: false };
         default:
             return state;
     }

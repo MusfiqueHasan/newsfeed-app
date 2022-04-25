@@ -36,6 +36,7 @@ const initPost = {
   photo: '',
   reaction: false,
   bookmarked: false,
+  bookmarkedUserEmail: '',
   userName: '',
   userUrl: '',
   email: '',
@@ -196,11 +197,14 @@ const Add = () => {
             sx={{}}
           >
             <Button onClick={() => {
+              let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+              let date = new Date()
               let copyPost = { ...post }
               copyPost.userName = currentUser?.displayName
               copyPost.userUrl = currentUser?.photoURL
               copyPost.email = currentUser?.email
               copyPost.createdDate = Date.now()
+              copyPost.date = date.toLocaleString('en-US', options)
 
               if (singlePost.id) { dispatch(updateNewsFeed(copyPost, copyPost.id)) } else { dispatch(createNewsFeeds(copyPost)) }
               dispatch(updateStateModal(false))

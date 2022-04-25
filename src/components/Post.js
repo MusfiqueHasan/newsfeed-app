@@ -14,17 +14,16 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNewsFeed, getNewsFeeds, getSingleNewsFeed, updateIconButton, updateStateDialog, updateStateModal } from "./redux/actions/newxfeedAction";
+import { deleteNewsFeed, getNewsFeeds, getSingleNewsFeed, updateBookmarkButton, updateReactButton, updateStateDialog, updateStateModal } from "./redux/actions/newxfeedAction";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { BOOKMARK_POST, UPDATE_REACTION } from "./redux/types";
 
 
 
 const Post = ({ postInfo }) => {
-  const { description, photo, reaction, id, bookmarked, userName, userUrl, email } = postInfo
+  const { description, photo, reaction, id, bookmarked, userName, userUrl, email, date } = postInfo
   const [isFavourite, setIsFavourite] = useState(true)
   const [isBookmarked, setIsBookmarked] = useState(true)
   const dispatch = useDispatch()
@@ -43,7 +42,7 @@ const Post = ({ postInfo }) => {
 
   useEffect(() => {
     dispatch(getNewsFeeds())
-  }, [dispatch])
+  }, [dispatch, bookmarked, reaction])
 
   return (
     <Card sx={{ margin: 5 }}>
@@ -58,7 +57,7 @@ const Post = ({ postInfo }) => {
           </IconButton>
         }
         title={userName}
-        // subheader={time}
+        subheader={date}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -78,7 +77,7 @@ const Post = ({ postInfo }) => {
             if (!currentUser?.email) {
               dispatch(updateStateModal(true))
             } else {
-              dispatch(updateIconButton(UPDATE_REACTION, isFavourite, id))
+              dispatch(updateReactButton(isFavourite, id))
               dispatch(updateStateModal(false))
               setIsFavourite(!isFavourite)
             }
@@ -92,7 +91,7 @@ const Post = ({ postInfo }) => {
             if (!currentUser?.email) {
               dispatch(updateStateModal(true))
             } else {
-              dispatch(updateIconButton(BOOKMARK_POST, isBookmarked, id))
+              dispatch(updateBookmarkButton(isBookmarked, currentUser.email, id))
               dispatch(updateStateModal(false))
               setIsBookmarked(!isBookmarked)
             }

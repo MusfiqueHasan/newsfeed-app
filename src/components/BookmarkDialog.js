@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, IconButton, List, ListItem, ListItemAvatar, ListItemText, Radio, RadioGroup, Slide, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@mui/material';
+import { Dialog, DialogContent, IconButton, Slide, Table, TableBody, TableCell, TableContainer, TableRow, } from '@mui/material';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { BOOKMARK_POST } from './redux/types';
-import { useDispatch } from 'react-redux';
-import { updateIconButton } from './redux/actions/newxfeedAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateBookmarkButton } from './redux/actions/newxfeedAction';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -13,6 +12,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const BookmarkDialog = ({ openDialog, handleCloseDialog, bookmarkedData }) => {
     const [isBookmarked, setIsBookmarked] = useState(true)
     const dispatch = useDispatch()
+    const { currentUser } = useSelector(state => state.authentication)
     return (
         <Dialog
             open={openDialog}
@@ -41,7 +41,7 @@ const BookmarkDialog = ({ openDialog, handleCloseDialog, bookmarkedData }) => {
                                             <TableCell align="right">
                                                 <IconButton aria-label="bookmark"
                                                     onClick={() => {
-                                                        dispatch(updateIconButton(BOOKMARK_POST, isBookmarked, data.id))
+                                                        dispatch(updateBookmarkButton(isBookmarked, currentUser.email, data.id))
                                                         setIsBookmarked(!isBookmarked)
                                                     }}
                                                 >
