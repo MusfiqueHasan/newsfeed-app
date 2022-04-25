@@ -22,7 +22,14 @@ const LoginRegistration = () => {
           // onClick={createUser}
           >
             <h3>Create Account</h3>
-
+            <Button
+              onClick={() => {
+                dispatch(updateStateModal(false))
+                dispatch(googleSignInInitiate())
+              }}
+              className=" social">
+              <GoogleIcon />
+            </Button>
             <input
               type="text"
               className="inputlog"
@@ -51,13 +58,7 @@ const LoginRegistration = () => {
               placeholder="Phone Number"
             // onBlur={handleOnChange}
             />
-            <input
-              type="password"
-              className="inputlog"
-              placeholder="Password"
-              name="password"
-            // onBlur={handleOnChange}
-            />
+
             <button className="btnlog" type="submit">
               REGISTER
             </button>
@@ -67,13 +68,11 @@ const LoginRegistration = () => {
           <form className="formlog"
           // onSubmit={handleLoginSubmit}
           >
-            <h1 className="h1log">Login</h1>
+            <h3 >Login</h3>
 
             <div class="social-container">
               <Button
                 onClick={() => {
-                  // if (currentUser?.email) {
-                  // }
                   dispatch(updateStateModal(false))
                   dispatch(googleSignInInitiate())
                 }}
@@ -92,17 +91,13 @@ const LoginRegistration = () => {
               name="email"
             // onBlur={handleOnChange}
             />
-            <br />
             <input
+              type="number"
+              name="phoneNumber"
               className="inputlog"
-              required
-              placeholder="Your Password"
-              // className="w-8/12 my-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
-              type="password"
-              name="password"
+              placeholder="Phone Number"
             // onBlur={handleOnChange}
             />
-            <br />
             <button className="btnlog" type="submit">
               Login
             </button>
@@ -117,26 +112,28 @@ const LoginRegistration = () => {
               <p className="plog heading">
                 To keep connected with us please login with your personal info.
               </p>
-              <button
+              <Button
+                sx={{ cursor: 'pointer' }}
                 className="ghost btnlog"
                 id="signIn"
                 onClick={() => setaddclass("")}
               >
                 GO TO LOGIN
-              </button>
+              </Button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1 className="text-2xl font-bold ">Hello, Friend!</h1>
               <p className=" plog heading">
                 Enter your personal details and start journey with us.
               </p>
-              <button
+              <Button
+                sx={{ cursor: 'pointer' }}
                 className="ghost btnlog"
                 id="signUp"
                 onClick={() => setaddclass("right-panel-active")}
               >
                 GO TO REGISTER
-              </button>
+              </Button>
             </div>
           </div>
         </div>
