@@ -8,11 +8,12 @@ const Feed = () => {
   const dispatch = useDispatch()
   const allPosts = useSelector((state) => state?.newsfeed?.posts)
   const loading = useSelector((state) => state?.newsfeed?.loading)
-
+  // sorted post
+  const sortedPosts = allPosts.sort((a, b) => b.createdDate - a.createdDate)
 
   useEffect(() => {
     dispatch(getNewsFeeds())
-  }, [])
+  }, [dispatch])
   return (
     <Box flex={4} p={{ xs: 0, md: 2 }}>
       {loading ? (
@@ -25,7 +26,7 @@ const Feed = () => {
       ) : (
         <>
           {
-            allPosts?.map(postInfo => {
+            sortedPosts?.map(postInfo => {
               return (
                 <Post postInfo={postInfo} />
               )

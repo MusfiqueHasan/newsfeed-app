@@ -1,14 +1,17 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { googleSignInInitiate } from "../redux/actions/authAction";
+import { updateStateModal } from "../redux/actions/newxfeedAction";
+import GoogleIcon from '@mui/icons-material/Google';
 import "./LoginRegistration.css";
 
 const LoginRegistration = () => {
 
   const [addclass, setaddclass] = useState("");
   const dispatch = useDispatch()
-
+  const { currentUser } = useSelector(state => state.authentication)
+  console.log(currentUser.email)
   return (
     <Box sx={{ my: 8 }}>
       <div className={`containerlog ${addclass}`} id="container">
@@ -19,20 +22,6 @@ const LoginRegistration = () => {
           // onClick={createUser}
           >
             <h3>Create Account</h3>
-
-            <div class="">
-              <button
-                // onClick={handleGoogleSignIn}
-                // onClick={() => dispatch(googleSignInInitiate())}
-                className="social"
-              >
-                google+
-                <i class="fab fa-google-plus-g"></i>
-              </button>
-            </div>
-            <span className="spanlog heading_two">
-              or use your email for registration
-            </span>
 
             <input
               type="text"
@@ -81,11 +70,16 @@ const LoginRegistration = () => {
             <h1 className="h1log">Login</h1>
 
             <div class="social-container">
-              <button
-                onClick={() => dispatch(googleSignInInitiate())}
+              <Button
+                onClick={() => {
+                  // if (currentUser?.email) {
+                  // }
+                  dispatch(updateStateModal(false))
+                  dispatch(googleSignInInitiate())
+                }}
                 className=" social">
-                google
-              </button>
+                <GoogleIcon />
+              </Button>
             </div>
             <span className="heading_two spanlog">or use your account</span>
 

@@ -7,7 +7,7 @@ import {
     deleteDoc,
     doc,
 } from "firebase/firestore";
-import { CREATE_NWESFEED, GET_NWESFEED, UPDATE_REACTION, BOOKMARK_POST, DELETE_NWESFEED, GET_SINGLE_NEWSFEED, UPDATE_NWESFEED, UPDATE_NWESFEED_STATE, UPDATE_MODAL_STATE } from "../types";
+import { CREATE_NWESFEED, GET_NWESFEED, UPDATE_REACTION, BOOKMARK_POST, DELETE_NWESFEED, GET_SINGLE_NEWSFEED, UPDATE_NWESFEED, UPDATE_NWESFEED_STATE, UPDATE_MODAL_STATE, UPDATE_DIALOG_STATE } from "../types";
 
 
 let usersCollectionRef = collection(db, "newsfeeds");
@@ -71,7 +71,7 @@ export const getSingleNewsFeed = (id) => async (dispatch) => {
     try {
         const data = await getDocs(usersCollectionRef);
         const allData = (data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        const singleData = allData.find(data => data.id === id )
+        const singleData = allData.find(data => data.id === id)
         dispatch({ type: GET_SINGLE_NEWSFEED, payload: singleData })
         dispatch(getNewsFeeds())
     } catch (error) {
@@ -100,6 +100,14 @@ export const updateStateNewsFeed = (data) => async (dispatch) => {
 export const updateStateModal = (data) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_MODAL_STATE, payload: data })
+        dispatch(getNewsFeeds())
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const updateStateDialog = (data) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_DIALOG_STATE, payload: data })
         dispatch(getNewsFeeds())
     } catch (error) {
         console.log(error)

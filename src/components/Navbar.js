@@ -63,10 +63,11 @@ const Navbar = () => {
   const handleOpenDialog = () => { setOpenDialog(true) };
   const handleCloseDialog = () => { setOpenDialog(false) };
 
-  
+
   const handleSignOut = () => {
     if (currentUser) {
       dispatch(googleSignOutInitiate())
+      dispatch(updateStateModal(false))
     }
   };
 
@@ -110,7 +111,7 @@ const Navbar = () => {
       </StyledToolbar>
 
       <BookmarkDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog} bookmarkedData={bookmarkedData} />
-      <LoginRegModal  />
+      <LoginRegModal />
     </AppBar >
   );
 };

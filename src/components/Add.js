@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { createNewsFeeds, getNewsFeeds, updateNewsFeed, updateStateModal, updateStateNewsFeed } from './redux/actions/newxfeedAction';
+import { createNewsFeeds, getNewsFeeds, updateNewsFeed, updateStateDialog, updateStateModal, updateStateNewsFeed } from './redux/actions/newxfeedAction';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 const SytledModal = styled(Modal)({
@@ -39,17 +39,20 @@ const initPost = {
   userName: '',
   userUrl: '',
   email: '',
+  createdDate: 0,
 }
 
 const Add = () => {
 
-  const [open, setOpen] = useState(false);
+
   const [post, setPost] = useState(initPost)
   const [selectImage, setSelectImage] = useState('');
   const dispatch = useDispatch()
   const singlePost = useSelector((state) => state?.newsfeed?.post)
+  const isDialogOpen = useSelector((state) => state?.newsfeed?.openDialog)
   console.log(singlePost.id)
   const { currentUser } = useSelector(state => state.authentication)
+
   // encode product image to base64
   const encodeFileBase64 = (file) => {
     var reader = new FileReader();
@@ -74,7 +77,7 @@ const Add = () => {
 
   useEffect(() => {
     dispatch(getNewsFeeds())
-    // !singlePost.id && dispatch(updateStateNewsFeed(initPost))
+    dispatch(updateStateNewsFeed(initPost))
   }, [dispatch])
 
   return (
@@ -82,10 +85,10 @@ const Add = () => {
       <Tooltip
         onClick={() => {
           if (currentUser?.email) {
-            setOpen(true)
+            dispatch(updateStateDialog(true))
             dispatch(updateStateModal(false))
           } else {
-            setOpen(false)
+            dispatch(updateStateDialog(false))
             dispatch(updateStateModal(true))
           }
         }}
@@ -101,10 +104,11 @@ const Add = () => {
         </Fab>
       </Tooltip>
       <SytledModal
-        open={open}
+        open={isDialogOpen}
         onClose={(e) => {
-          setOpen(false)
+          dispatch(updateStateDialog(false))
           dispatch(updateStateModal(false))
+          setPost(initPost)
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -196,16 +200,13 @@ const Add = () => {
               copyPost.userName = currentUser?.displayName
               copyPost.userUrl = currentUser?.photoURL
               copyPost.email = currentUser?.email
+              copyPost.createdDate = Date.now()
 
-              if (singlePost.id) {
-                dispatch(updateNewsFeed(copyPost, copyPost.id))
-                dispatch(updateStateNewsFeed(initPost))
-              } else {
-                dispatch(createNewsFeeds(copyPost))
-                dispatch(updateStateNewsFeed(initPost))
-              }
+              if (singlePost.id) { dispatch(updateNewsFeed(copyPost, copyPost.id)) } else { dispatch(createNewsFeeds(copyPost)) }
               dispatch(updateStateModal(false))
-              setOpen(false)
+              dispatch(updateStateDialog(false))
+              setPost(initPost)
+              setSelectImage('')
             }}>
               Post
             </Button>

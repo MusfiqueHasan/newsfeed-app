@@ -1,4 +1,4 @@
-import { Favorite, FavoriteBorder, MoreVert, Share } from "@mui/icons-material";
+import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 import {
   Avatar,
   Card,
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNewsFeed, getNewsFeeds, getSingleNewsFeed, updateIconButton, updateStateModal } from "./redux/actions/newxfeedAction";
+import { deleteNewsFeed, getNewsFeeds, getSingleNewsFeed, updateIconButton, updateStateDialog, updateStateModal } from "./redux/actions/newxfeedAction";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -30,25 +30,20 @@ const Post = ({ postInfo }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
+  let time = Date.now()
   const { currentUser } = useSelector(state => state.authentication)
-  console.log(currentUser.email)
-  console.log(email)
-  // const isOpen = useSelector(state => state.newsfeed.openModel)
+  console.log(time)
 
   const handleClick = (event) => {
-    if (email === currentUser?.email) {
-      setAnchorEl(event.currentTarget);
-    }
+    setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-    // dispatch(updateStateModal(false))
   };
 
   useEffect(() => {
     dispatch(getNewsFeeds())
-  }, [])
+  }, [dispatch])
 
   return (
     <Card sx={{ margin: 5 }}>
@@ -59,11 +54,11 @@ const Post = ({ postInfo }) => {
         action={
           <IconButton aria-label="settings" onClick={handleClick}
           >
-            <MoreVert />
+            {(email === currentUser?.email) && <MoreVert />}
           </IconButton>
         }
         title={userName}
-        subheader="September 14, 2022"
+        // subheader={time}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -143,7 +138,7 @@ const Post = ({ postInfo }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={() => {
-          dispatch(updateStateModal(false))
+          dispatch(updateStateDialog(true))
           dispatch(getSingleNewsFeed(id))
         }}>
           <ListItemIcon>
@@ -152,7 +147,6 @@ const Post = ({ postInfo }) => {
           Edit
         </MenuItem>
         <MenuItem onClick={() => {
-          // dispatch(updateStateModal(false))
           dispatch(deleteNewsFeed(id))
         }}>
           <ListItemIcon>

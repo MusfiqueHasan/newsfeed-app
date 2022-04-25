@@ -1,10 +1,11 @@
-import { CREATE_NWESFEED, DELETE_NWESFEED, GET_NWESFEED, UPDATE_NWESFEED, UPDATE_REACTION, BOOKMARK_POST, GET_SINGLE_NEWSFEED, UPDATE_NWESFEED_STATE, UPDATE_MODAL_STATE } from "../types";
+import { CREATE_NWESFEED, DELETE_NWESFEED, GET_NWESFEED, UPDATE_NWESFEED, UPDATE_REACTION, BOOKMARK_POST, GET_SINGLE_NEWSFEED, UPDATE_NWESFEED_STATE, UPDATE_MODAL_STATE, UPDATE_DIALOG_STATE } from "../types";
 
 const initState = {
     posts: [],
     post: {},
     bookmarkPost: {},
     openModel: false,
+    openDialog: false,
 };
 
 function newsFeedReducer(state = initState, action) {
@@ -15,8 +16,11 @@ function newsFeedReducer(state = initState, action) {
             return { ...state, bookmarkPost: action.payload, loading: false };
         case GET_SINGLE_NEWSFEED:
         case UPDATE_NWESFEED_STATE:
+            return { ...state, post: action.payload, loading: false };
         case UPDATE_MODAL_STATE:
             return { ...state, openModel: action.payload, loading: false };
+        case UPDATE_DIALOG_STATE:
+            return { ...state, openDialog: action.payload, loading: false };
         case CREATE_NWESFEED:
         case DELETE_NWESFEED:
         case UPDATE_NWESFEED:
