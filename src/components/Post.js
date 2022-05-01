@@ -28,9 +28,9 @@ const Post = ({ postInfo }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  let time = Date.now()
+
   const { currentUser } = useSelector(state => state.authentication)
-  console.log(time)
+  
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -91,7 +91,7 @@ const Post = ({ postInfo }) => {
               dispatch(updateBookmarkButton(e.target.checked, currentUser?.email, id))
             }
           }}
-          icon={bookmarked ? <BookmarkIcon color='primary' /> : <BookmarkBorderIcon />}
+          icon={(bookmarked) ? <BookmarkIcon color='primary' /> : <BookmarkBorderIcon />}
           checkedIcon={<BookmarkIcon color='primary' />}
         />
       </CardActions>

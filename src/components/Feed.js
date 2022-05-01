@@ -5,12 +5,21 @@ import Post from "./Post";
 import { getNewsFeeds } from "./redux/actions/newxfeedAction";
 
 const Feed = () => {
+  const { currentUser } = useSelector(state => state.authentication)
   const dispatch = useDispatch()
   const allPosts = useSelector((state) => state?.newsfeed?.posts)
   const loading = useSelector((state) => state?.newsfeed?.loading)
   // sorted post
   const sortedPosts = allPosts.sort((a, b) => b.createdDate - a.createdDate)
 
+  const isBooked = sortedPosts.filter(booked => booked.bookmarked === true && booked.bookmarkedUserEmail === currentUser?.email)
+  console.log(isBooked.length)
+  useEffect(() => {
+
+    if (isBooked.length === 0) {
+      sortedPosts.bookmarked = false
+    }
+  }, [isBooked.length, sortedPosts])
   useEffect(() => {
     dispatch(getNewsFeeds())
   }, [dispatch])
